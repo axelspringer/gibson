@@ -15,11 +15,15 @@
 package check
 
 import (
-	"fmt"
+	"context"
+	"errors"
+	"net/http"
+	"time"
 
 	"github.com/spf13/cobra"
 
 	config "github.com/axelspringer/gibson/cfg"
+	log "github.com/sirupsen/logrus"
 )
 
 // Cmd exports the check command
@@ -27,6 +31,12 @@ var Cmd *cobra.Command
 
 // config
 var cfg = config.Config
+
+// error
+var (
+	errNoURL     = errors.New("no valid url provided")
+	errUnhealthy = errors.New("unhealthy")
+)
 
 // New creates a new command line interface.
 func New() *Check {
@@ -40,13 +50,55 @@ func init() {
 		Short: "Checks health of an url or process",
 		RunE:  runE,
 	}
+
+	// URL
+	Cmd.Flags().StringVar(&cfg.URL, "url", "", "path in the parameter store")
 }
 
 func runE(cmd *cobra.Command, args []string) error {
 	// new Run
-	var run = new(Check)
+	// var check = new(Check)
 
-	fmt.Println(run.args)
+	// simple check for URL, the
+	if cfg.URL == "" {
+		return errNoURL
+	}
+
+	// make new request
+	req, err := http.NewRequest("GET", cfg.URL, nil)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	// create new ctx
+	ctx, cancel := context.WithTimeout(req.Context(), cfg.Timeout*time.Second)
+	defer cancel()
+
+	// use ctx
+	req = req.WithContext(ctx)
+
+	// create client
+	client := http.DefaultClient
+	res, err := client.Do(req)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	// check for status code
+	if res.StatusCode != http.StatusOK {
+		return errUnhealthy
+	}
 
 	return nil // noop
 }
+
+// func err(cmd *cobra.Command, err error) error {
+// 	// configure fields
+// 	logger := log.WithFields(log.Fields{
+// 		"cmd":  Cmd.Name(),
+// 		"args": Cmd.Args,
+// 	})
+// 	logger.Error(err) // log
+
+// 	return nil // err
+// }

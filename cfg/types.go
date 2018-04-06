@@ -16,6 +16,7 @@ package cfg
 
 import (
 	"syscall"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -33,4 +34,10 @@ type CmdConfig struct {
 
 	// KillSignal
 	KillSignal syscall.Signal
+
+	// Timeout of the runtime
+	Timeout time.Duration
+
+	// URL to check
+	URL string
 }

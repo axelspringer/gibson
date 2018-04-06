@@ -35,6 +35,9 @@ const (
 
 	// DefaultVerbose is the default verbosity.
 	DefaultVerbose = false
+
+	// DefaultTimeout is the default time to configure the runtime
+	DefaultTimeout = 60
 )
 
 func init() {
@@ -43,5 +46,6 @@ func init() {
 		LogLevel:     DefaultLogLevel,
 		ReloadSignal: DefaultReloadSignal,
 		KillSignal:   DefaultKillSignal,
+		Timeout:      DefaultTimeout,
 	}
 }
