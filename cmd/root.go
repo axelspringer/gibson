@@ -19,6 +19,7 @@ import (
 	"os"
 
 	config "github.com/axelspringer/gibson/cfg"
+	"github.com/axelspringer/gibson/check"
 	"github.com/axelspringer/gibson/version"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -58,8 +59,8 @@ func init() {
 	RootCmd.SilenceErrors = true
 	RootCmd.SilenceUsage = true
 
-	// add run command
-	// RootCmd.AddCommand(run.Cmd)
+	// add check command
+	RootCmd.AddCommand(check.Cmd)
 
 	// add version command
 	RootCmd.AddCommand(version.Cmd)

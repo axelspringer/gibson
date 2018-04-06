@@ -12,25 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cfg
+package check
 
 import (
-	"syscall"
-
-	log "github.com/sirupsen/logrus"
+	"sync"
 )
 
-// CmdConfig contains a current config of Gibson
-type CmdConfig struct {
-	// Verbose toggles the verbosity
-	Verbose bool
+// Checker is the interface to a runtime environment
+type Checker interface {
+	// Setup should setup the runtime environment
+	Exec() error
+}
 
-	// LogLevel is the level with with to log for this config
-	LogLevel log.Level
+// Check is the runtime environment of a Checker
+type Check struct {
+	sync.Mutex
 
-	// ReloadSignal
-	ReloadSignal syscall.Signal
-
-	// KillSignal
-	KillSignal syscall.Signal
+	args []string
 }

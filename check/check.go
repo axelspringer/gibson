@@ -12,25 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cfg
+package check
 
 import (
-	"syscall"
+	"fmt"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+
+	config "github.com/axelspringer/gibson/cfg"
 )
 
-// CmdConfig contains a current config of Gibson
-type CmdConfig struct {
-	// Verbose toggles the verbosity
-	Verbose bool
+// Cmd exports the check command
+var Cmd *cobra.Command
 
-	// LogLevel is the level with with to log for this config
-	LogLevel log.Level
+// config
+var cfg = config.Config
 
-	// ReloadSignal
-	ReloadSignal syscall.Signal
+// New creates a new command line interface.
+func New() *Check {
+	return &Check{}
+}
 
-	// KillSignal
-	KillSignal syscall.Signal
+// exports command by default
+func init() {
+	Cmd = &cobra.Command{
+		Use:   "check",
+		Short: "Checks health of an url or process",
+		RunE:  runE,
+	}
+}
+
+func runE(cmd *cobra.Command, args []string) error {
+	// new Run
+	var run = new(Check)
+
+	fmt.Println(run.args)
+
+	return nil // noop
 }

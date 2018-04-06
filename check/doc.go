@@ -12,25 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cfg
-
-import (
-	"syscall"
-
-	log "github.com/sirupsen/logrus"
-)
-
-// CmdConfig contains a current config of Gibson
-type CmdConfig struct {
-	// Verbose toggles the verbosity
-	Verbose bool
-
-	// LogLevel is the level with with to log for this config
-	LogLevel log.Level
-
-	// ReloadSignal
-	ReloadSignal syscall.Signal
-
-	// KillSignal
-	KillSignal syscall.Signal
-}
+package check
