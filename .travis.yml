@@ -1,0 +1,39 @@
+language: go
+matrix:
+  include:
+  - go: 1.x
+    env: LATEST=true
+  - go: 1.8
+  - go: 1.9
+  - go: tip
+  allow_failures:
+  - go: tip
+cache:
+  directories:
+  - "$GOPATH/src"
+  - "$GOPATH/pkg"
+install:
+- make deps
+- make restore
+- export CI=TRAVIS
+script:
+- make ci
+- if [ "${LATEST}" = "true" ]; then make build/release; fi
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: nMOxrjSQWr6UX2xKYUdcZuxjj5szAKOijEHhSVwtONrZo0b0Bq3O/Q6qp1q/5csZb3cYX9RN8lviDcw9ASNOOF4HSoAF6yqcPCV0C3a1+MduL+56ooGbHAUSGLLmt90dCsjc4HmeJ3X5DZ1D5glYrxSBRuV0PhVbrqKWARkLmdJRLVU/qd9Z2jg8GEGayLqF9EtIilFdxpG8qqsAvKGo+oj3H5Ba0CtIq96m4NFJBS8Atwxj2Eh3FMgZoqlA41iufeD7nQh2Lr1l86sSCtRjU2TNroaS76Ki5mRVQZs5HII/eTep+/jKEwi9sCgEK9uh88UrVBsxJcndTGCvKa85cjpJNVP2AcCfNYO1tBSfEFJwyBy97/lAjy4W13nvM6eVkVeRjza75HAxoK5QPU73qRp4Ak+YIT1N3Tle8KEwg298RGiMD5B2VESrQEfGq2UfPqnzReWmvohoJECajUgE5gsA4lBafsCT9AYks7CyWeRZhjWhOoItHr29CjHgKj5hCzLtViHeEk40x6h1OCcnC1OY5UVNwMY7CRPYRUujodUJpdUDT/aJyBxEZUBwDINI/nRAdqjZS9AbLr436+0iclLmhAQIVCqgIv3wv/amL1N0uDxrvvyuYWRsPoEBf7Ps54nA4jTn/yyN9K9EUV32UGbZsIJ50uodtv3UZO4w8PM=
+  file:
+  - bin/gibson
+  - bin/gibson_darwin_386
+  - bin/gibson_darwin_amd64
+  - bin/gibson_linux_386
+  - bin/gibson_linux_amd64
+  on:
+    repo: axelspringer/gibson
+    tags: true
+    condition: "$LATEST = true"
+notifications:
+  slack:
+    secure: Jn1kygEuJ3z/BGmA/Obp4o4eD2OaPXzqV+eOwfujmOsxVs0ePBsYmWxtrG3rIC3dCeoNtj9n6j5pcx+UPeZ/SINi/2d39k9BJNUSDatiO3HaQ5EtizXAL4i3mNcutU06iUS8GZlZGYHGxwAXzKJNsyOQmKgKTijN8937KV7v8ROhsNdzAvEOdNacR031XDPBwjyr/8LErpfKOjKC1btYdxKGoD6cjLLBj3W5XhLvaPo6RUP4X+qMh3CmTobnNLyvSF8RxmNdOO+j5FtYBlF4Kq3Dkfl2uiF/cOlpidtd1n/BMfuUW0oIcF/B7Q9C2kjvsIBtmvVk7Dc+wnwU85EzcvGwk9bYl5b7MP+YpDmRmbFJClRwx2UphHNPFhiaILgiLplfp16yDC7wQ4tOIpC5QRI4gfc65y+DfD5+YFmxlb4g4Colfe76Npo34mltwNYSodh9cLVq0Wx1qvf4UWUAJkPziL8RfDd86viWMNzEH8ZYox5BjZMhM2a0cws880CrBEXgFdCvcRQzWU2Iq6MSKHJiEdjYo7ppM0Cmi4DzJVSKWRpuZfgzqutdFY6bIpa8kyQyu33cVLe8AkVNKwa4pYO9OnLxDpDHb/5CV86jwFbSEMy+PRZQQNeRTYYBADX6quooT+ETBBYQcOx1p8f88VlWHV1TMMnSxItBjLG616g=

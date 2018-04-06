@@ -1,0 +1,10 @@
+{
+  "*": {
+    "promptValues": {
+      "app": "gibson",
+      "vendor": false,
+      "dep": true,
+      "cobra": true
+    }
+  }
+}
