@@ -23,7 +23,6 @@ import (
 	"github.com/spf13/cobra"
 
 	config "github.com/axelspringer/gibson/cfg"
-	log "github.com/sirupsen/logrus"
 )
 
 // Cmd exports the check command
@@ -67,7 +66,7 @@ func runE(cmd *cobra.Command, args []string) error {
 	// make new request
 	req, err := http.NewRequest("GET", cfg.URL, nil)
 	if err != nil {
-		log.Fatalf("%v", err)
+		return err
 	}
 
 	// create new ctx
@@ -81,7 +80,7 @@ func runE(cmd *cobra.Command, args []string) error {
 	client := http.DefaultClient
 	res, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("%v", err)
+		return err
 	}
 
 	// check for status code
