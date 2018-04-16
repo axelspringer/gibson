@@ -15,6 +15,7 @@
 package cfg
 
 import (
+	"net/http"
 	"syscall"
 
 	log "github.com/sirupsen/logrus"
@@ -38,6 +39,12 @@ const (
 
 	// DefaultTimeout is the default time to configure the runtime
 	DefaultTimeout = 60
+
+	// DefaultHTTPMethod is the default method to be used for url
+	DefaultHTTPMethod = http.MethodGet
+
+	// DefaultHTTPURL is the default url to be checked
+	DefaultHTTPURL = "http://localhost:8080"
 )
 
 func init() {
@@ -47,5 +54,7 @@ func init() {
 		ReloadSignal: DefaultReloadSignal,
 		KillSignal:   DefaultKillSignal,
 		Timeout:      DefaultTimeout,
+		HTTPMethod:   DefaultHTTPMethod,
+		HTTPURL:      DefaultHTTPURL,
 	}
 }

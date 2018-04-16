@@ -51,20 +51,21 @@ func init() {
 	}
 
 	// URL
-	Cmd.Flags().StringVar(&cfg.URL, "url", "", "path in the parameter store")
+	Cmd.Flags().StringVar(&cfg.HTTPURL, "url", cfg.HTTPURL, "path in the parameter store")
+
+	// Method
+	Cmd.Flags().StringVar(&cfg.HTTPMethod, "method", cfg.HTTPMethod, "http method (e.g. GET, POST, PUT)")
+
+	// Timeout
+	Cmd.Flags().DurationVar(&cfg.Timeout, "timeout", cfg.Timeout, "timeout for operation")
 }
 
 func runE(cmd *cobra.Command, args []string) error {
 	// new Run
 	// var check = new(Check)
 
-	// simple check for URL, the
-	if cfg.URL == "" {
-		return errNoURL
-	}
-
 	// make new request
-	req, err := http.NewRequest("GET", cfg.URL, nil)
+	req, err := http.NewRequest(cfg.HTTPMethod, cfg.HTTPURL, nil)
 	if err != nil {
 		return err
 	}
@@ -90,14 +91,3 @@ func runE(cmd *cobra.Command, args []string) error {
 
 	return nil // noop
 }
-
-// func err(cmd *cobra.Command, err error) error {
-// 	// configure fields
-// 	logger := log.WithFields(log.Fields{
-// 		"cmd":  Cmd.Name(),
-// 		"args": Cmd.Args,
-// 	})
-// 	logger.Error(err) // log
-
-// 	return nil // err
-// }

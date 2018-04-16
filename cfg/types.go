@@ -39,5 +39,8 @@ type CmdConfig struct {
 	Timeout time.Duration
 
 	// URL to check
-	URL string
+	HTTPURL string
+
+	// HTTP method to be used for check
+	HTTPMethod string
 }
