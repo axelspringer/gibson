@@ -33,7 +33,6 @@ var cfg = config.Config
 
 // error
 var (
-	errNoURL     = errors.New("no valid url provided")
 	errUnhealthy = errors.New("unhealthy")
 )
 
