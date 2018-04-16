@@ -8,10 +8,6 @@ matrix:
   - go: tip
   allow_failures:
   - go: tip
-cache:
-  directories:
-  - "$GOPATH/src"
-  - "$GOPATH/pkg"
 install:
 - make deps
 - make restore
